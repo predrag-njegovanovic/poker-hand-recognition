@@ -2,8 +2,61 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd870071-e11b-4490-8c60-ae8d30fd3a93" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/MainPackage/CropCardsDataSet.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/MainPackage/test.jpg" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204739.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204739.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204750.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204750.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204809.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204809.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204818.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204818.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204830.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204830.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204841.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204841.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204857.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204857.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204941.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204941.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204956.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_204956.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205009.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205009.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205020.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205020.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205031.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205031.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205042.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205042.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205102.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205102.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205111.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205111.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205125.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205125.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205136.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205136.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205145.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205145.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205212.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205212.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205242.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205242.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205257.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205257.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205307.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205307.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205323.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205323.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205332.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205332.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205344.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205344.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205405.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205405.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205427.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205427.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205438.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205438.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205512.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205512.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205523.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205523.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205533.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205533.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205543.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205543.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205601.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205601.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205618.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205618.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205625.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205625.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205635.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205635.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205651.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205651.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205712.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205712.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205726.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205726.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205736.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205736.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205753.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205753.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205812.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205812.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205825.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205825.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205842.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205842.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205906.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205906.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205940.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205940.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205951.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_205951.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210009.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210009.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210018.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210018.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210031.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210031.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210041.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210041.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210050.jpg" afterPath="$PROJECT_DIR$/MainPackage/Soft-dataset sredjen/IMG_20170116_210050.jpg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MainPackage/CropCardsDataSet.py" afterPath="$PROJECT_DIR$/MainPackage/CropCardsDataSet.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +71,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="CropCardsDataSet.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CropCardsDataSet.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MainPackage/CropCardsDataSet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="255">
+              <caret line="44" column="58" lean-forward="false" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -30,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CardRecognitionTest.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CardRecognitionTest.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MainPackage/CardRecognitionTest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+            <state relative-caret-position="165">
+              <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -60,6 +113,7 @@
         <option value="$PROJECT_DIR$/MainPackage/__init__.py" />
         <option value="$PROJECT_DIR$/MainPackage/ResizeImage.py" />
         <option value="$PROJECT_DIR$/MainPackage/CardRecognitionTest.py" />
+        <option value="$PROJECT_DIR$/MainPackage/CropCardsDataSet.py" />
       </list>
     </option>
   </component>
@@ -84,6 +138,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -96,17 +152,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PokerHandRecognition" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PokerHandRecognition" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MainPackage" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="SearchEverywhereHistoryKey" value="prefere&#9;null&#9;null" />
     <property name="editor.config.accepted" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/MainPackage/CardRecognitionTest.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/MainPackage/CropCardsDataSet.py" />
   </component>
   <component name="RunManager" selected="Python.ResizeImage">
     <configuration default="false" name="ResizeImage" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -121,7 +189,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="PokerHandRecognition" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MainPackage/CardRecognitionTest.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/MainPackage/CropCardsDataSet.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -296,16 +364,16 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1301" height="744" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24596465" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32884902" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34321374" sideWeight="0.50269026" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917318" sideWeight="0.53651035" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32884902" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32659408" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32917318" sideWeight="0.46963874" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32917318" sideWeight="0.46348962" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="true" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24980783" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34321374" sideWeight="0.49730977" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34321374" sideWeight="0.49730977" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39937598" sideWeight="0.49423522" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -345,6 +413,46 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/MainPackage/CropCardsDataSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="0" lean-forward="false" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainPackage/CardRecognitionTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainPackage/CropCardsDataSet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="585">
+          <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MainPackage/CardRecognitionTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MainPackage/CropCardsDataSet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="615">
@@ -532,20 +640,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MainPackage/PictureTest.png" />
-    <entry file="file://$PROJECT_DIR$/MainPackage/CropCardsDataSet.py">
+    <entry file="file://$PROJECT_DIR$/MainPackage/CardRecognitionTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+        <state relative-caret-position="165">
+          <caret line="11" column="17" lean-forward="false" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MainPackage/CardRecognitionTest.py">
+    <entry file="file://$PROJECT_DIR$/MainPackage/CropCardsDataSet.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="42" column="16" lean-forward="true" selection-start-line="42" selection-start-column="16" selection-end-line="42" selection-end-column="16" />
+        <state relative-caret-position="255">
+          <caret line="44" column="58" lean-forward="false" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>

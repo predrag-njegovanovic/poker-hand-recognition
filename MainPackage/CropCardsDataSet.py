@@ -5,6 +5,7 @@ import matplotlib.image as im
 import cv2
 import copy
 import os
+from PIL import Image
 allPictures = os.listdir('Soft-dataset')
 for card in allPictures:
     img = imread('Soft-dataset/'+card)
@@ -36,17 +37,18 @@ for card in allPictures:
             max = i[3]
             idx = index
 
-    print list[idx], max
 
     x = list[idx][0]
     y = list[idx][1]
     w = list[idx][2]
     h = list[idx][3]
-    cv2.rectangle(copy, (x,y),(x+w,y+h),(255,255,0),3)
+    cv2.rectangle(copy, (x, y),(x+w, y+h), (255, 255, 0), 3)
 
     copy = img[y: y+h, x: x+w]
-    #plt.imshow(copy)
+    i = Image.fromarray(copy)
+    image = i.resize((41, 64), Image.ANTIALIAS)
+    image.save(os.path.join('Soft-dataset sredjen',card), 'JPEG', quality=90)
+    #plt.imshow(i)
     #plt.show()
-    forSave = cv2.cvtColor(copy, cv2.COLOR_BGR2RGB)
-    cv2.imwrite(os.path.join('Soft-dataset sredjen', card), forSave)
+    #cv2.imwrite(os.path.join('Soft-dataset sredjen', card), forSave)
 

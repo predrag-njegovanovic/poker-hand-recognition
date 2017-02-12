@@ -5,101 +5,101 @@ import matplotlib.image as im
 import cv2
 import copy
 import os
+import re
 from PIL import Image
 from keras.models import Sequential
 from keras.layers.recurrent import GRU
 from keras.layers.core import Activation, Dense
 from keras.optimizers import SGD
-from sklearn.datasets import fetch_mldata
+from keras.utils import np_utils
+import operator
 
-from sympy.logic.inference import pl_true
+
+def natural_sort(l):
+    convert = lambda text: int(text) if text.isdigit() else text.lower()
+    alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
+    return sorted(l, key = alphanum_key)
+
 
 def to_categorical(labels, n):
     retVal = np.zeros((len(labels), n), 'int')
     ll = np.array(list(enumerate(labels)))
-    retVal[ll[:,0],ll[:,1]] = 1
+    retVal[ll[:, 0],ll[:,  1]] = 1
     return retVal
 
 allPictures = os.listdir('Soft-dataset sredjen')
-
+allPictures = natural_sort(allPictures)
 # [card_number, card_symbol]
 # herc = 1, karo = 2, pik = 3, tref = 4
-card_targets = []
-card_input = [] # card_pixels
-
-#za test
-card_number_targets = []
-card_symbol_targets = []
-pom = []
-#-======
+data = []
+labels = []
+card_symbol = []
 
 for card in allPictures:
     card_number = int(card.split(' ', 2)[0])
-    card_symbol = card.split(' ', 2)[1].split(".", 2)[0]
+    symbol = card.split(' ', 2)[1].split(".", 2)[0]
 
-    if(card_symbol == "HERC"):
-        card_symbol = 1
-    elif(card_symbol == "KARO"):
-        card_symbol = 2
-    elif(card_symbol == "PIK"):
-        card_symbol = 3
-    elif(card_symbol == "TREF"):
-        card_symbol = 4
+    if(symbol == "HERC"):
+        symbol = 1
+    elif(symbol == "KARO"):
+        symbol = 2
+    elif(symbol == "PIK"):
+        symbol = 3
+    elif(symbol == "TREF"):
+        symbol = 4
     else:
         print ("Greska prilikom uzimanja symbola!")
 
-    card_targets.append([card_number, card_symbol])
-
-    #test
-    card_number_targets.append(card_number)
-    card_symbol_targets.append(card_symbol_targets)
-    #--
-
-   # img = Image.open('Soft-dataset sredjen/' + card, 'r')
- #   pix_val = list(img.getdata())
- #   card_input.append(pix_val)
-
-    img = imread('Soft-dataset sredjen/' + card, 'r')
-    pom.append(img.flatten())
-
-card_input = np.asarray(pom)
-test_numbers_out = to_categorical(card_number_targets, 52)
+    labels.append(card_number)
+    card_symbol.append(symbol)
 
 
+    img = imread('Soft-dataset sredjen/' + card)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 3)
+    i = np.asarray(img.flatten())
+    data.append(i)
 
-#    profesorovo
 
-#    img = imread('Soft-dataset sredjen/' + card, 'r')
-#    pom.append(img.flatten())
+test_labels = np_utils.to_categorical(labels, 15)
+#ll = np.asarray(card_symbol)
+#test_labels[:, 0] = ll
+#print test_labels
+
+
+data = np.array(data) / 255.0
+#print data
+# # #model
+# #
+model = Sequential()
+model.add(Dense(1312, input_dim=2624))
+model.add(Activation("relu"))
+model.add(Dense(768, activation='relu'))
+model.add(Dense(768, activation='relu'))
+model.add(Dense(334, activation='relu'))
+model.add(Dense(15))
+model.add(Activation("softmax"))
+sgd = SGD(0.1, 0.75, 0.001)
+model.compile(loss='mean_squared_error', optimizer=sgd)
+#
+
+print "....Training starting...."
+
+training = model.fit(data,test_labels, nb_epoch=10, batch_size=5, verbose=0)
+print training.history
+print "...Training finished..."
+
 
 # #
-# #card_input = np.asarray(pom)
-#
-# card_input = np.asarray(pom)
-# test_numbers_out = to_categorical(card_number_targets, 52)
-#
-# #model
-#
-# model = Sequential()
-# model.add(Dense(70, input_dim=2624))
-# model.add(Activation("relu"))
-# model.add(Dense(52))
-# model.add(Activation("relu"))
-#
-# sgd = SGD(0.1, 0.7,0.001)
-# model.compile(loss='mean_squared_error', optimizer=sgd)
-#
-# training = model.fit(card_input,test_numbers_out, nb_epoch=500, batch_size=400, verbose=0)
-# print training.history['loss'][-1]
-#
-#
-# testImg = imread("kectTrefTest.jpg",'r')
-#
-#
-# testX = np.asarray(testImg.flatten())
-#
-# testX = np.reshape(testX, testX.shape + (1,))
-#
-# t = model.predict(testX, verbose=1)
-# #print t[testImg]
-
+testImg = imread("test10pik.jpg")
+# # #
+# # #
+g = cv2.cvtColor(testImg, cv2.COLOR_BGR2GRAY)
+testImg = cv2.adaptiveThreshold(g, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 3)
+testX = np.asarray(testImg.flatten())
+testX = np.reshape(testX, (1, 2624))
+testX = testX/255.0
+t = model.predict(testX, verbose=1)
+print t
+maxIndex = np.argmax(t)
+print maxIndex

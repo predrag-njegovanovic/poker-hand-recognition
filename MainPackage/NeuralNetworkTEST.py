@@ -12,7 +12,6 @@ from keras.models import Sequential
 from keras.layers.recurrent import GRU
 from keras.layers.core import Activation, Dense
 from keras.optimizers import SGD
-from sklearn.datasets import fetch_mldata
 
 from sympy.logic.inference import pl_true
 

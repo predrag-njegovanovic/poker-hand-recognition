@@ -9,100 +9,193 @@ from PIL import Image
 from operator import itemgetter
 
 
-def Znak(cropsTop):
-    crops = obradiSliku(cropsTop)
-
-    def nadjiKonture(img):
-        konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-        list = []
-
-        for k in konture:
-            t = cv2.boundingRect(k)
-            list.append(t)
-
-        max = 0
-        idx = 0
-        for index, i in enumerate(list):
-            if (i[3] > max):
-                max = i[3]
-                idx = index
+def getWhites(img):
+    whites = 0
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    filter = np.ones((5, 5), np.float32) / 25
+    i = cv2.filter2D(gray, -1, filter)
+    i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+    for x in range(len(i)):
+        for k in range(len(i[x])):
+            if (i[x][k] == 1):
+                whites += 1
+    return whites
 
 
-        x = list[idx][0]
-        y = list[idx][1]
-        w = list[idx][2]
-        h = list[idx][3]
-        return x,y,w,h
+def nadjiKonture (img, cropsTop):
+    konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    #cv2.drawContours(cropsTop, konture, -1, (255, 255, 0), 2)
+    kontura = sorted(konture, key=cv2.contourArea, reverse=True)
 
-    x, y, w, h = nadjiKonture(crops)
+    list = []
+
+    t = cv2.boundingRect(kontura[0])
+    list.append(t)
+
+    #print len(list)
+    #cv2.rectangle(cropsTop, (t[0],t[1]),(t[1]+t[3],t[0]+t[2]), (255, 255, 0), 2)
+
+    max = 0
+    idx = 0
+    for index, i in enumerate(list):
+        if (i[3] > max):
+            max = i[3]
+            idx = index
+
+    x = list[idx][0]
+    y = list[idx][1]
+    w = list[idx][2]
+    h = list[idx][3]
+    return x, y, w, h
+
+def Znak(cropsTop, counter, angleRotate):
+    crops = obradiSliku(cropsTop, counter)
+    x, y, w, h = nadjiKonture(crops, cropsTop)
     topOut = cropsTop[y:y+h, x:x+w]
     cropHeight, cropWidth, channel = cropsTop.shape
     height, width, channel = topOut.shape
-    if(width >= height):
-        Mat = cv2.getRotationMatrix2D((cropWidth/2, cropHeight/2), -90, 1)
+    if(width > height):
+        Mat = cv2.getRotationMatrix2D((cropWidth/2, cropHeight/2), angleRotate, 1)
         novaSlika = cv2.warpAffine(cropsTop, Mat, (cropWidth, cropHeight))
-        cc = obradiSliku(novaSlika)
-        x,y,w,h = nadjiKonture(cc)
-        #cv2.rectangle(cc, (x, y), (x + w, y + h), (255, 255, 0), 2)
-        #plt.imshow(novaSlika)
-        #plt.show()
+        cc = obradiSliku(novaSlika, counter)
+        x,y,w,h = nadjiKonture(cc, cropsTop)
+        cv2.rectangle(cc, (x, y), (x + w, y + h), (255, 255, 0), 2)
         topOut = novaSlika[y:y+h, x:x+w]
+        #plt.imshow(topOut)
+        #plt.show()
 
-    if(width > 100):
-        topOut = topOut[0:height-10, 50:width]
     #cv2.rectangle(cropsTop,(x,y),(x+w,y+h,(255,255,0),2)
 
     return topOut
 
-
-
-allPictures = os.listdir('Soft-dataset')
-#for card in allPictures:
-#img = imread('Soft-dataset/'+card)
-#if(card.startswith("1 ")):
-#    continue
-img = imread('1 HERC.jpg')
-def obradiSliku(img):
+def obradiSliku (img, nmbOfDilate):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    filter = np.ones((5, 5), np.float32)/25
+    filter = np.ones((5, 5), np.float32) / 25
     i = cv2.filter2D(gray, -1, filter)
     i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
 
     kernel = np.ones((3, 3), np.uint8)
 
-    i = cv2.morphologyEx(i,cv2.MORPH_OPEN, kernel, iterations = 1)
-    i = cv2.dilate(i, kernel, iterations= 13)
+    i = cv2.morphologyEx(i, cv2.MORPH_OPEN, kernel, iterations=1)
+    i = cv2.dilate(i, kernel, iterations=nmbOfDilate)
     return i
 
-i = obradiSliku(img)
-
-contours, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-#cv2.drawContours(copy,contours, -1, (255, 255, 0), 3)
-contours = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
-
-c = contours[0]
-peri = cv2.arcLength(c, True)
-approx = cv2.approxPolyDP(c, 0.02 * peri, True)
-list = []
-for idx, i in enumerate(approx):
-    list.append(approx[idx][0])
+allPictures = os.listdir('Soft-dataset')
+for card in allPictures:
+    img = imread('Soft-dataset/'+card)
+    #img = imread('2 KARO.jpg')
 
 
-approx = np.array(list, np.float32)
-dst = np.array([[0, 0], [0, 499], [499, 499], [499, 0]], np.float32)
-M = cv2.getPerspectiveTransform(approx, dst)
-z = cv2.warpPerspective(img, M, (500, 500))
-cropsTop = z[0:120,0:120]
-cropsBottom = z[390:485, 15:75]
-tO = Znak(cropsTop)
-plt.imshow(tO)
-plt.show()
-#bO = Znak(cropsBottom)
-#top = Image.fromarray(cropsTop)
-#bottom = Image.fromarray(cropsBottom)
-#top.save(os.path.join('Soft-dataset-uglovi',"Top "+card), 'JPEG', quality=90)
-#bottom.save(os.path.join('Soft-dataset-uglovi',"Bottom "+card), 'JPEG', quality=90)
+    counter = 7
+    wFirstCounter = 0
+    while wFirstCounter < 100:
+        counter += 2
+        i = obradiSliku(img, counter)
+
+        contours, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contour = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
+
+        c = contour[0]
+        peri = cv2.arcLength(c, True)
+        approx = cv2.approxPolyDP(c, 0.02 * peri, True)
+        list = []
+        for idx, i in enumerate(approx):
+            list.append(approx[idx][0])
+
+        wFirstCounter+=1
+        if(len(approx) <= 4):
+            break
+
+    approx = np.array(list, np.float32)
+    dst = np.array([[0, 0], [0, 499], [499, 499], [499, 0]], np.float32)
+    M = cv2.getPerspectiveTransform(approx, dst)
+    z = cv2.warpPerspective(img, M, (500, 500))
+    cropsTop = z[0:120,0:120]
+    cropsBottom = z[380:500, 0:120]
+    # height, width, channel = cropsBottom.shape
+    # firstImage = cropsBottom[0:height, 0:width/2]
+    # secondImage = cropsBottom[0:height, width/2:width]
+    # thirdImage = cropsBottom[0:height/2, 0:width]
+    # fourthImage = cropsBottom[height/2:height, 0:width]
+    #
+    # fW = getWhites(firstImage)
+    # sW = getWhites(secondImage)
+    # tW = getWhites(thirdImage)
+    # frW = getWhites(fourthImage)
+    #
+    # temp = ((fW,firstImage),(sW,secondImage), (tW, thirdImage), (frW, fourthImage))
+    #
+    # pom = sorted(temp, key=itemgetter(0))[-1]
+    # im = pom[1]
+    # height, width, channel = im.shape
+    # res = cv2.resize(im,(120, 120),interpolation=cv2.INTER_CUBIC)
+    # Mat = cv2.getRotationMatrix2D((60, 60), 90, 1)
+    # novaSlika = cv2.warpAffine(res, Mat, (120, 120))
+    # res = cv2.resize(novaSlika,(height,width), interpolation=cv2.INTER_CUBIC)
+    # plt.imshow(res)
+    # plt.show()
+    angleRotate = -90
+    secCounter = 2
+    wFirstCounter = 0
+    while wFirstCounter < 20:
+        whites = 0
+        blacks = 0
+        tO = Znak(cropsTop, secCounter, angleRotate)
+        h, w, c = tO.shape
+        gray = cv2.cvtColor(tO, cv2.COLOR_BGR2GRAY)
+        filter = np.ones((5, 5), np.float32) / 25
+        i = cv2.filter2D(gray, -1, filter)
+        i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+        for x in range(len(i)):
+            for k in range(len(i[x])):
+                if(i[x][k] == 0):
+                    blacks+=1
+                else:
+                    whites+=1
+
+        wFirstCounter += 1
+        secCounter += 1
+        if(blacks/whites > 5):
+            continue
+
+        if(h > 80 and h < 110 and w > 40 and w < 100):
+            break
+
+    ### Crops bottom ###
+    secCounter = 2
+    wFirstCounter = 0
+    angleRotate = 90
+    while wFirstCounter < 20:
+        whites = 0
+        blacks = 0
+        bO = Znak(cropsBottom, secCounter, angleRotate)
+        h, w, c = bO.shape
+        gray = cv2.cvtColor(bO, cv2.COLOR_BGR2GRAY)
+        filter = np.ones((5, 5), np.float32) / 25
+        i = cv2.filter2D(gray, -1, filter)
+        i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+        for x in range(len(i)):
+            for k in range(len(i[x])):
+                if (i[x][k] == 0):
+                    blacks += 1
+                else:
+                    whites += 1
+
+        wFirstCounter += 1
+        secCounter += 1
+        if (blacks / whites > 5):
+            continue
+
+        if (h > 80 and h < 110 and w > 40 and w < 100):
+            break
+
+
+    top = Image.fromarray(tO)
+    bottom = Image.fromarray(bO)
+    imageTop = top.resize((95,70), Image.ANTIALIAS)
+    imageBottom = bottom.resize((95, 70), Image.ANTIALIAS)
+    imageTop.save(os.path.join('Soft-dataset-uglovi',"Top "+card), 'JPEG', quality=90)
+    imageBottom.save(os.path.join('Soft-dataset-uglovi',"Bottom "+card), 'JPEG', quality=90)
 
 
 

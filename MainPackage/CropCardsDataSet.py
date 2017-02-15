@@ -9,7 +9,7 @@ from PIL import Image
 from operator import itemgetter
 
 
-def getWhites(img):
+def getBlacks(img):
     whites = 0
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     filter = np.ones((5, 5), np.float32) / 25
@@ -21,6 +21,38 @@ def getWhites(img):
                 whites += 1
     return whites
 
+def cutInHalf(img):
+    height, width, channel = img.shape
+    #
+    firstColumn = img[:, 3:5]
+    lastColumn = img[:, width-5:width]
+    firstRow = img[3:5, :]
+    lastRow = img[height-5:height, :]
+
+    TopImage = img[0:height/2+6, 0:width]
+    BottomImage = img[height/2-6:height, 0:width]
+    LeftImage = img[0:height, 0:width/2-6]
+    RightImage = img[0:height, width/2+6:width]
+
+    fC = getBlacks(firstColumn)
+    lC = getBlacks(lastColumn)
+    fR = getBlacks(firstRow)
+    lR = getBlacks(lastRow)
+    #print fC, lC, fR, lR
+    # #
+    temp = ((fC, RightImage),(lC,LeftImage), (fR, BottomImage), (lR, TopImage))
+    #
+    pom = sorted(temp, key=itemgetter(0))[-1]
+    im = pom[1]
+    height, width, channel = im.shape
+    if(width > height):
+        res = cv2.resize(im, (120, 120), interpolation=cv2.INTER_CUBIC)
+        Mat = cv2.getRotationMatrix2D((60, 60), -90, 1)
+        im = cv2.warpAffine(res, Mat, (120, 120))
+        res = cv2.resize(im, (height, width), interpolation=cv2.INTER_CUBIC)
+    #plt.imshow(res)
+    #plt.show()
+    return res
 
 def nadjiKonture (img, cropsTop):
     konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -83,9 +115,9 @@ def obradiSliku (img, nmbOfDilate):
 allPictures = os.listdir('Soft-dataset')
 for card in allPictures:
     img = imread('Soft-dataset/'+card)
-    #img = imread('2 KARO.jpg')
+    #img = imread('12 PIK.jpg')
 
-
+    #
     counter = 7
     wFirstCounter = 0
     while wFirstCounter < 100:
@@ -112,28 +144,6 @@ for card in allPictures:
     z = cv2.warpPerspective(img, M, (500, 500))
     cropsTop = z[0:120,0:120]
     cropsBottom = z[380:500, 0:120]
-    # height, width, channel = cropsBottom.shape
-    # firstImage = cropsBottom[0:height, 0:width/2]
-    # secondImage = cropsBottom[0:height, width/2:width]
-    # thirdImage = cropsBottom[0:height/2, 0:width]
-    # fourthImage = cropsBottom[height/2:height, 0:width]
-    #
-    # fW = getWhites(firstImage)
-    # sW = getWhites(secondImage)
-    # tW = getWhites(thirdImage)
-    # frW = getWhites(fourthImage)
-    #
-    # temp = ((fW,firstImage),(sW,secondImage), (tW, thirdImage), (frW, fourthImage))
-    #
-    # pom = sorted(temp, key=itemgetter(0))[-1]
-    # im = pom[1]
-    # height, width, channel = im.shape
-    # res = cv2.resize(im,(120, 120),interpolation=cv2.INTER_CUBIC)
-    # Mat = cv2.getRotationMatrix2D((60, 60), 90, 1)
-    # novaSlika = cv2.warpAffine(res, Mat, (120, 120))
-    # res = cv2.resize(novaSlika,(height,width), interpolation=cv2.INTER_CUBIC)
-    # plt.imshow(res)
-    # plt.show()
     angleRotate = -90
     secCounter = 2
     wFirstCounter = 0
@@ -189,6 +199,13 @@ for card in allPictures:
         if (h > 80 and h < 110 and w > 40 and w < 100):
             break
 
+    ht, wt, ct = tO.shape
+    if(ht > 115 and wt > 115):
+        tO = cutInHalf(tO)
+
+    hb, wb, cb = bO.shape
+    if(hb > 115 and wb > 115):
+        bO = cutInHalf(bO)
 
     top = Image.fromarray(tO)
     bottom = Image.fromarray(bO)

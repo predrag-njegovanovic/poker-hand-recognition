@@ -1,13 +1,10 @@
 import numpy as np
 import cv2
+import matplotlib.pyplot as plt
 from operator import itemgetter
 
-def getBlacks(img):
+def getBlacks(i):
     whites = 0
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    filter = np.ones((5, 5), np.float32) / 25
-    i = cv2.filter2D(gray, -1, filter)
-    i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
     for x in range(len(i)):
         for k in range(len(i[x])):
             if (i[x][k] == 1):
@@ -16,16 +13,22 @@ def getBlacks(img):
 
 def cutInHalf(img):
     height, width, channel = img.shape
-    #
-    firstColumn = img[:, 3:5]
-    lastColumn = img[:, width-5:width]
-    firstRow = img[6:8, :]
-    lastRow = img[height-5:height, :]
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    filter = np.ones((5, 5), np.float32) / 25
+    i = cv2.filter2D(gray, -1, filter)
+    i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+    bimg = turnWhite(img, i)
+    #plt.imshow(bimg,'gray')
+    #plt.show()
+    firstColumn = bimg[:, 5:10]
+    lastColumn = bimg[:, width-10:width-5]
+    firstRow = bimg[5:10, :]
+    lastRow = bimg[height-10:height-5, :]
 
-    TopImage = img[0:height/2+6, 0:width]
-    BottomImage = img[height/2-6:height, 0:width]
-    LeftImage = img[0:height, 0:width/2-6]
-    RightImage = img[0:height, width/2+6:width]
+    TopImage = img[0:height/2-20, 0:width]
+    BottomImage = img[height/2+20:height, 0:width]
+    LeftImage = img[0:height, 0:width/2+20]
+    RightImage = img[0:height, width/2-20:width]
 
     fC = getBlacks(firstColumn)
     lC = getBlacks(lastColumn)
@@ -105,3 +108,12 @@ def obradiSliku (img, nmbOfDilate):
     i = cv2.morphologyEx(i, cv2.MORPH_OPEN, kernel, iterations=1)
     i = cv2.dilate(i, kernel, iterations=nmbOfDilate)
     return i
+
+def turnWhite(img, blackImg):
+    h, w, c = img.shape
+    for x in range(h):
+        for j in range(w):
+            if((img[x][j][0] > 120 and img[x][j][1] < 80 and img[x][j][2] < 80) or (img[x][j][0] < 60 and img[x][j][1] < 60 and img[x][j][2] < 60)):
+                blackImg[x][j] = 1
+
+    return blackImg

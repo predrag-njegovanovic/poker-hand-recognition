@@ -42,18 +42,6 @@ def trainNetwork():
     for card in allPictures:
         card_number = int(card.split(' ', 2)[1])
         symbol = card.split(' ', 2)[2].split(".", 2)[0]
-    #
-        if(symbol == "HERC"):
-            symbol = 100
-        elif(symbol == "KARO"):
-            symbol = 200
-        elif(symbol == "PIK"):
-            symbol = 300
-        elif(symbol == "TREF"):
-            symbol = 400
-        else:
-            print ("Greska prilikom uzimanja symbola!")
-    #
         labels.append(card_number)
     #
         img = imread('Soft-dataset-uglovi/' + card)
@@ -91,7 +79,7 @@ def trainNetwork():
     #
     print "....Training starting...."
     #
-    training = model.fit(data,test_labels, nb_epoch=11, batch_size=10, verbose=1)
+    training = model.fit(data,test_labels, nb_epoch=15, batch_size=10, verbose=1)
     print training.history
     print "...Training finished..."
     return model
@@ -107,16 +95,7 @@ def checkCard(model, testImg):
     testX = np.asarray(testImg.flatten())
     testX = np.reshape(testX, (1, 6650))
     testX = testX/255.0
-    t = model.predict(testX, verbose=1)
-    print t
+    t = model.predict(testX, verbose=0)
     maxIndex = np.argmax(t)
-    print maxIndex
+    return maxIndex, t[0][maxIndex]
 
-
-# model = trainNetwork()
-# testImg1 = imread("Bottom 2 HERC.jpg")
-# testImg2 = imread("Bottom 13 KARO.jpg")
-# testImg3 = imread("Top 3 PIK.jpg")
-# checkCard(model, testImg1)
-# checkCard(model, testImg2)
-# checkCard(model, testImg3)

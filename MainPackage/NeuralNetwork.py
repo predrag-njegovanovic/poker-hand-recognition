@@ -113,10 +113,10 @@ def checkCard(model, testImg):
     print maxIndex
 
 
-model = trainNetwork()
-testImg1 = imread("Bottom 2 HERC.jpg")
-testImg2 = imread("Bottom 13 KARO.jpg")
-testImg3 = imread("Top 3 PIK.jpg")
-checkCard(model, testImg1)
-checkCard(model, testImg2)
-checkCard(model, testImg3)
+# model = trainNetwork()
+# testImg1 = imread("Bottom 2 HERC.jpg")
+# testImg2 = imread("Bottom 13 KARO.jpg")
+# testImg3 = imread("Top 3 PIK.jpg")
+# checkCard(model, testImg1)
+# checkCard(model, testImg2)
+# checkCard(model, testImg3)

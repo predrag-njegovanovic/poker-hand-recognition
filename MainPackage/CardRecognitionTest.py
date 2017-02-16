@@ -55,7 +55,7 @@ def Konture(img):
     copy = img[y: y + h, x: x + w]
     return approx
 
-img = imread('KosaTest.jpg')
+img = imread('Proba.jpg')
 approx = Konture(img)
 
 list = []

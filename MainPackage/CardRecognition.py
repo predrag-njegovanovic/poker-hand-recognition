@@ -8,9 +8,11 @@ import NeuralNetwork as NN
 from keras.models import load_model
 import operator
 import h5py
+from PIL import Image
+import NeuralNetworkWithDuplicates as nnwd
 
 
-img = imread('Test4.jpg')
+img = imread('Proba.jpg')
 c = copy.copy(img)
 counter = 0
 wFirstCounter = 0
@@ -20,7 +22,7 @@ while wFirstCounter < 100:
     contoursOf4 = []
     counter += 1
     i = cm.obradiSliku(img, counter)
-    konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    nesto, konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     kontura = sorted(konture, key=cv2.contourArea, reverse=True)[:10]
     for cons in kontura:
         p = cv2.arcLength(cons, True)
@@ -125,24 +127,91 @@ for image in arrayOfImages:
 
          cropCards.append(tO)
 
-resizes = []
+
+# PEDJINO ====================
+# resizes = []
+# for card in cropCards:
+#     s = cv2.resize(card,(95, 70), interpolation=cv2.INTER_CUBIC)
+#     resizes.append(s)
+#
+# accumulationList = []
+# listOfNumbers = []
+# model = load_model('CardNeural.h5')
+# for r in resizes:
+#     plt.imshow(r)
+#     plt.show()
+#     number, probability = NN.checkCard(model, r)
+#     t = (number, probability)
+#     print number, probability
+#     accumulationList.append(t)
+#     if(len(accumulationList) == 4):
+#         accumulationList = sorted(accumulationList, key=operator.itemgetter(1),reverse=True)
+#         listOfNumbers.append(accumulationList[0][0])
+#         accumulationList = []
+#
+# print listOfNumbers
+# =====================================================
+
+# ==== MOJE ====
+resizesFirst = []
 for card in cropCards:
     s = cv2.resize(card,(95, 70), interpolation=cv2.INTER_CUBIC)
-    resizes.append(s)
+    resizesFirst.append(s)
+
+
+resizes = []
+for slika in resizesFirst:
+
+    height, width, channel = slika.shape
+
+    TopImage = slika[10:height / 2, 0:width]
+    BottomImage = slika[height / 2:height - 10, 0:width]
+
+    if (cm.haveSpace(TopImage)):
+        TopImage = slika[0:height / 2 - 5, 0:width]
+    else:
+        TopImage = slika[0:height / 2 + 5, 0:width]
+
+    if (cm.haveSpace(BottomImage)):
+        BottomImage = slika[height / 2 + 5:height, 0:width]
+    else:
+        BottomImage = slika[height / 2 - 5:height, 0:width]
+
+
+    imageTop = cv2.resize(TopImage, (95, 35), interpolation=cv2.INTER_CUBIC)
+    imageBottom = cv2.resize(BottomImage, (95, 35), interpolation=cv2.INTER_CUBIC)
+
+    resizes.append(imageTop)
+    resizes.append(imageBottom)
 
 accumulationList = []
 listOfNumbers = []
-model = load_model('CardNeural.h5')
+
+model = load_model("CardNeuralDuplicates.h5")
+
 for r in resizes:
     plt.imshow(r)
     plt.show()
-    number, probability = NN.checkCard(model, r)
+    number, probability = nnwd.checkCard(model, r)
     t = (number, probability)
     print number, probability
     accumulationList.append(t)
-    if(len(accumulationList) == 4):
+
+    if(len(accumulationList) == 8):
         accumulationList = sorted(accumulationList, key=operator.itemgetter(1),reverse=True)
+
         listOfNumbers.append(accumulationList[0][0])
+        flag = accumulationList[0][0]
+        for x,nesto in enumerate(accumulationList):
+            if(flag >= 15 and accumulationList[x][0] < 15):
+                listOfNumbers.append(accumulationList[x][0])
+                break
+            elif(flag < 15 and accumulationList[x][0] >= 15):
+                listOfNumbers.append(accumulationList[x][0])
+                break
+
         accumulationList = []
 
 print listOfNumbers
+
+

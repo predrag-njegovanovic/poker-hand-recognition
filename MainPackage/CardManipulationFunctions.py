@@ -3,6 +3,32 @@ import cv2
 import matplotlib.pyplot as plt
 from operator import itemgetter
 
+
+
+def haveSpace(img):
+
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    filter = np.ones((5, 5), np.float32) / 25
+
+    i = cv2.filter2D(gray, -1, filter)
+    i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+
+    i = turnWhite(img, i)
+
+    for x in range(len(i)):
+        clearColumn = True
+
+        for k in range(len(i[x])):
+            if (i[x][k] == 1):
+                clearColumn = False
+                break
+
+        if(clearColumn):
+            return True
+
+    return  False
+
+
 def getBlacks(i):
     whites = 0
     for x in range(len(i)):
@@ -52,7 +78,7 @@ def cutInHalf(img):
     return res
 
 def nadjiKonture (img):
-    konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    nesto, konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     #cv2.drawContours(cropsTop, konture, -1, (255, 255, 0), 2)
     kontura = sorted(konture, key=cv2.contourArea, reverse=True)
 

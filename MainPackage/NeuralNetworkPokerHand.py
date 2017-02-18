@@ -1,9 +1,10 @@
 from __future__ import division
 import numpy as np
+import pickle as pick
 from keras.models import Sequential
 from keras.layers.core import Activation, Dense, Dropout
 from keras.optimizers import SGD,Adagrad
-
+import h5py
 
 
 def to_categorical(labels, n):
@@ -13,7 +14,8 @@ def to_categorical(labels, n):
     return retVal
 
 def trainPokerNetwork():
-    f = open('Soft-dataset-pokerHand/PokerHandDataset.txt','r')
+    f = open('Soft-dataset-pokerHand/Test.txt','r')
+    k = 1
     textLines = []
     labels = []
     ranks = []
@@ -26,22 +28,22 @@ def trainPokerNetwork():
                 labels.append(int(parts[i]))
                 break
 
-            ranks.append(int(parts[i]))
-            numbers.append(int(parts[i+1]))
-        #textLines.append(newData)
-    ranks = to_categorical(ranks, 19)
-    numbers = to_categorical(numbers, 14)
+            ranks = to_categorical([int(parts[i])], 19)
+            numbers = to_categorical([int(parts[i+1])], 14)
 
-    for x in range(len(ranks)):
-        r = ranks[x,15:19]
-        n = numbers[x,:]
-        pom = []
-        for t in range(len(n)):
-            pom.append(n[t])
-        for t in range(len(r)):
-            pom.append(r[t])
-        textLines.append(pom)
+            r = ranks[0, 15:19]
+            n = numbers[0, :]
 
+            newData.extend(r)
+            newData.extend(n)
+
+        k += 1
+        print k
+        textLines.append(newData)
+
+
+    # with open("TextLines.txt", "wb") as fp:
+    #     pick.dump(textLines, fp)
 
     print "Priprema ulaza....."
     #
@@ -54,23 +56,23 @@ def trainPokerNetwork():
     print "Zavrsena priprema....."
     #
     testLabels = to_categorical(labels,10)
-    #
-    # model = Sequential()
-    # model.add(Dense(5, input_dim=10))
-    # model.add(Activation('relu'))
-    # model.add(Dense(10, activation='softmax'))
-    # sgd = SGD(lr=0.001, momentum=0.75, decay=1e-06, nesterov=True)
-    # adagrad = Adagrad(lr=0.01, epsilon=1e-08, decay=0.0)
-    # model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-    #
-    # print "...Training starting..."
-    #
-    # training = model.fit(data,testLabels,batch_size=100,nb_epoch=10,verbose=1)
-    #
-    # print training.history
-    # print "...Training finished...."
-    #
-    # return model
+
+    model = Sequential()
+    model.add(Dense(17, input_dim=90))
+    model.add(Activation('relu'))
+    model.add(Dense(10, activation='softmax'))
+    sgd = SGD(lr=0.001, momentum=0.75, decay=1e-06, nesterov=True)
+    adagrad = Adagrad(lr=0.01, epsilon=1e-08, decay=0.0)
+    model.compile(loss='categorical_crossentropy', optimizer=adagrad, metrics=['accuracy'])
+
+    print "...Training starting..."
+
+    training = model.fit(data,testLabels,batch_size=10,nb_epoch=20,verbose=1)
+
+    print training.history
+    print "...Training finished...."
+
+    return model
 
 def getPokerHand(model, array):
     t = model.predict(array, verbose=0)
@@ -78,4 +80,5 @@ def getPokerHand(model, array):
     return maxIndex, t
 
 
-trainPokerNetwork()
+#model = trainPokerNetwork()
+#model.save("NeuralNetwork80inputs.h5")

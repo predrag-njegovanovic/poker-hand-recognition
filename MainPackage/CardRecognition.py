@@ -12,7 +12,7 @@ import NeuralNetworkWithDuplicates as nnwd
 
 def CardRecognition(img,model):
     c = copy.copy(img)
-    counter = 2
+    counter = 7
     wFirstCounter = 0
     arrayOfImages = []
     arrayOfContures = []
@@ -20,18 +20,20 @@ def CardRecognition(img,model):
         contoursOf4 = []
         counter += 1
         i = cm.obradiSliku(img, counter)
+       # plt.imshow(i,'gray')
+       # plt.show()
         konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(c,konture,-1,(255,255,0),2)
         kontura = sorted(konture, key=cv2.contourArea, reverse=True)[:10]
         for cons in kontura:
             p = cv2.arcLength(cons, True)
             a = cv2.approxPolyDP(cons, 0.02 * p, True)
-            if(len(a) <= 4):
+            if(len(a) == 4):
                 contoursOf4.append(cons)
             if(len(contoursOf4) > 8 and len(a) > 4):
                 break
 
         x = 0
-        j = 0
         listOfContours = []
         listOfContours.append(contoursOf4[0])
         while x < len(contoursOf4):
@@ -71,11 +73,15 @@ def CardRecognition(img,model):
         if (flag == False):
             break
 
-    for list in arrayOfContures:
+    for index,list in enumerate(arrayOfContures):
+        if(index > 4):
+            break
         approx = np.array(list, np.float32)
         dst = np.array([[0, 0], [0, 499], [499, 499], [499, 0]], np.float32)
         M = cv2.getPerspectiveTransform(approx, dst)
         z = cv2.warpPerspective(img, M, (500, 500))
+        # plt.imshow(z)
+        # plt.show()
         arrayOfImages.append(z)
 
     cropNum = 0
@@ -161,11 +167,8 @@ def CardRecognition(img,model):
     listOfNumbers = []
 
     for r in resizes:
-        # plt.imshow(r)
-        # plt.show()
         number, probability = nnwd.checkCard(model, r)
         t = (number, probability)
-        print number, probability
         accumulationList.append(t)
 
         if(len(accumulationList) == 8):
@@ -183,9 +186,17 @@ def CardRecognition(img,model):
 
             accumulationList = []
 
-    print listOfNumbers
+    finalList = []
+    for index in xrange(0,len(listOfNumbers)-1,2):
+        znak = listOfNumbers[index]
+        broj = listOfNumbers[index+1]
+        if znak >= 15:
+            finalList.append(znak)
+            finalList.append(broj)
+        else:
+            finalList.append(broj)
+            finalList.append(znak)
+
+    return finalList
 
 
-img = imread('JosJedan.jpg')
-model = load_model('CardNeuralPoker.h5')
-CardRecognition(img, model)

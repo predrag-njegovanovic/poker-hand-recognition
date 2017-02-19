@@ -34,16 +34,12 @@ def to_categorical(labels, n):
 def trainNetwork():
     allPictures = os.listdir('Soft-dataset-duplicated')
     allPictures = natural_sort(allPictures)
-    #print allPictures
-    # # [card_number, card_symbol]
-    # # herc = 1, karo = 2, pik = 3, tref = 4
     data = []
     labels = []
     card_symbol = []
     #
     for card in allPictures:
         card_number = int(card.split(' ', 2)[0])
-      #  symbol = card.split(' ', 2)[2].split(".", 2)[0]
         labels.append(card_number)
     #
         img = imread('Soft-dataset-duplicated/' + card)
@@ -53,11 +49,8 @@ def trainNetwork():
         data.append(i)
     #
     #
-    #print len(labels)
     test_labels = np_utils.to_categorical(labels, 19)
     ll = np.asarray(card_symbol)
-    # #test_labels[:, 0] = ll
-    #print test_labels
     #
     #
     data = np.array(data) / 255.0
@@ -76,7 +69,7 @@ def trainNetwork():
     model.add(Dense(19))
     model.add(Activation("softmax"))
     adagrad = Adagrad(lr=0.0001, epsilon=1e-08, decay=0.0)
-    model.compile(loss='categorical_crossentropy', optimizer=adagrad)
+    model.compile(loss='categorical_crossentropy', optimizer=adagrad, metrics=['accuracy'])
     # #
     #
     print "....Training starting...."
@@ -95,8 +88,6 @@ def checkCard(model, testImg):
     # # #
     g = cv2.cvtColor(testImg, cv2.COLOR_BGR2GRAY)
     testImg = cv2.adaptiveThreshold(g, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
-    #plt.imshow(testImg, 'gray')
-    #plt.show()
     testX = np.asarray(testImg.flatten())
     testX = np.reshape(testX, (1, 3325))
     testX = testX/255.0

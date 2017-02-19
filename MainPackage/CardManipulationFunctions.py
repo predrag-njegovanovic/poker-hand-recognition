@@ -44,8 +44,6 @@ def cutInHalf(img):
     i = cv2.filter2D(gray, -1, filter)
     i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
     bimg = turnWhite(img, i)
-    #plt.imshow(bimg,'gray')
-    #plt.show()
     firstColumn = bimg[:, 5:10]
     lastColumn = bimg[:, width-10:width-5]
     firstRow = bimg[5:10, :]
@@ -60,10 +58,7 @@ def cutInHalf(img):
     lC = getBlacks(lastColumn)
     fR = getBlacks(firstRow)
     lR = getBlacks(lastRow)
-    #print fC, lC, fR, lR
-    # #
     temp = ((fC, RightImage),(lC,LeftImage), (fR, BottomImage), (lR, TopImage))
-    #
     pom = sorted(temp, key=itemgetter(0))[-1]
     im = pom[1]
     res = im
@@ -73,23 +68,16 @@ def cutInHalf(img):
         Mat = cv2.getRotationMatrix2D((60, 60), -90, 1)
         im = cv2.warpAffine(res, Mat, (120, 120))
         res = cv2.resize(im, (height, width), interpolation=cv2.INTER_CUBIC)
-    #plt.imshow(res)
-    #plt.show()
     return res
 
 def nadjiKonture (img):
     konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    #cv2.drawContours(cropsTop, konture, -1, (255, 255, 0), 2)
     kontura = sorted(konture, key=cv2.contourArea, reverse=True)
 
     list = []
 
     t = cv2.boundingRect(kontura[0])
     list.append(t)
-
-    #print len(list)
-    #cv2.rectangle(cropsTop, (t[0],t[1]),(t[1]+t[3],t[0]+t[2]), (255, 255, 0), 2)
-
     max = 0
     idx = 0
     for index, i in enumerate(list):
@@ -116,10 +104,6 @@ def Znak(cropsTop, counter, angleRotate):
         x,y,w,h = nadjiKonture(cc)
         cv2.rectangle(cc, (x, y), (x + w, y + h), (255, 255, 0), 2)
         topOut = novaSlika[y:y+h, x:x+w]
-        #plt.imshow(topOut)
-        #plt.show()
-
-    #cv2.rectangle(cropsTop,(x,y),(x+w,y+h,(255,255,0),2)
 
     return topOut
 

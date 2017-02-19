@@ -9,4 +9,4 @@ modelNeural = nnwd.trainNetwork()
 modelRandomForest = nnph.trainPokerNetwork()
 modelNeural.save('CardNeuralPoker.h5')
 with open("RandomForestPokerHand.bin", 'wb') as fp:
-     pick.dump(modelRandomForest,fp,pick.HIGHEST_PROTOCOL)
+   pick.dump(modelRandomForest,fp,pick.HIGHEST_PROTOCOL)

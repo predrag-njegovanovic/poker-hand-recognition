@@ -1,6 +1,9 @@
 from __future__ import division
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.neighbors import KNeighborsClassifier
 
 
 def to_categorical(labels, n):
@@ -10,7 +13,7 @@ def to_categorical(labels, n):
     return retVal
 
 def trainPokerNetwork():
-    f = open('Soft-dataset-pokerHand/PokerHandDataset.txt','r')
+    f = open('Soft-dataset-pokerHand/PokerHand-Original.txt','r')
     textLines = []
     labels = []
     ranks = []
@@ -25,24 +28,27 @@ def trainPokerNetwork():
                  labels.append(int(parts[i]))
                  break
 
-            x = int(parts[i])
-            if (x == 15):
-                r = 1
-            elif (x == 16):
-                r = 2
-            elif (x == 17):
-                r = 3
-            elif (x == 18):
-                r = 4
-            ranks.append(r)
-            numbers.append(int(parts[i+1]))
+            x = int(parts[i+1])
+            ranks.append(int(parts[i]))
+            numbers.append(x)
 
         ranks = sorted(ranks, key=int)
         numbers = sorted(numbers, key=int)
-        newData.extend(numbers)
-        newData.extend(ranks)
-        textLines.append(newData)
+        highestNumber = numbers[-1]
+        numbersExtracted = []
+        numbersExtracted.append(highestNumber)
+        ranksExtracted = []
+        for s in range(len(ranks)-1):
+            diff = ranks[s+1] - ranks[s]
+            ranksExtracted.append(diff)
 
+        for n in range(len(numbers)-1):
+            diff = numbers[n+1] - numbers[n]
+            numbersExtracted.append(diff)
+
+        newData.extend(ranksExtracted)
+        newData.extend(numbersExtracted)
+        textLines.append(newData)
 
     print "Priprema ulaza....."
     #
@@ -56,9 +62,10 @@ def trainPokerNetwork():
     #
     testLabels = np.array(labels)
 
-    model = RandomForestClassifier(n_estimators=200)
+    model = RandomForestClassifier(n_estimators=10,n_jobs=-1, criterion='entropy')
     model.fit(data, testLabels)
-
+    score = cross_val_score(model, data, testLabels)
+    print score.mean()
     return model
 
 def getPokerHand(model, array):
@@ -68,22 +75,42 @@ def getPokerHand(model, array):
     for i in xrange(0, len(array), 2):
 
         x = int(array[i])
+        y = int(array[i+1])
         if (x == 15):
-            r = 1
+            x = 1
         elif (x == 16):
-            r = 2
+            x = 3
         elif (x == 17):
-            r = 3
+            x = 2
         elif (x == 18):
-            r = 4
-        ranks.append(r)
-        numbers.append(int(array[i + 1]))
+            x = 4
+
+        if (y == 14):
+            y = 13
+        elif (y == 13):
+            y = 12
+        elif (y == 12):
+            y = 11
+        ranks.append(x)
+        numbers.append(y)
 
     ranks = sorted(ranks, key=int)
     numbers = sorted(numbers, key=int)
 
-    newData.extend(numbers)
-    newData.extend(ranks)
+    highestNumber = numbers[-1]
+    numbersExtracted = []
+    numbersExtracted.append(highestNumber)
+    ranksExtracted = []
+    for s in range(len(ranks) - 1):
+        diff = ranks[s + 1] - ranks[s]
+        ranksExtracted.append(diff)
+
+    for n in range(len(numbers) - 1):
+        diff = numbers[n + 1] - numbers[n]
+        numbersExtracted.append(diff)
+
+    newData.extend(ranksExtracted)
+    newData.extend(numbersExtracted)
 
     data = np.array(newData)
     predict = model.predict(data)

@@ -78,7 +78,7 @@ def cutInHalf(img):
     return res
 
 def nadjiKonture (img):
-    nesto, konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     #cv2.drawContours(cropsTop, konture, -1, (255, 255, 0), 2)
     kontura = sorted(konture, key=cv2.contourArea, reverse=True)
 

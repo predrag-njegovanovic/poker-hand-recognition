@@ -81,7 +81,7 @@ def trainNetwork():
     #
     print "....Training starting...."
     #
-    training = model.fit(data,test_labels, nb_epoch=15, batch_size=10, verbose=1)
+    training = model.fit(data,test_labels, nb_epoch=25, batch_size=10, verbose=1)
     print training.history
     print "...Training finished..."
     return model

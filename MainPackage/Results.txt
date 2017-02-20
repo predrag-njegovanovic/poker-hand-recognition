@@ -1,1 +1,30 @@
 3.jpg --- One pair; one pair of equal ranks within five cards.
+7.jpg --- One pair; one pair of equal ranks within five cards.
+11.jpg --- One pair; one pair of equal ranks within five cards.
+14.jpg --- Two pairs; two pairs of equal ranks within five cards.
+15.jpg --- Nothing in hand; not a recognized poker hand.
+16.jpg --- One pair; one pair of equal ranks within five cards.
+19.jpg --- Full house; pair + different rank three of a kind.
+21.jpg --- Full house; pair + different rank three of a kind.
+23.jpg --- Full house; pair + different rank three of a kind.
+24.jpg --- Nothing in hand; not a recognized poker hand.
+30.jpg --- Royal flush; {Ace, King, Queen, Jack, Ten} + flush.
+31.jpg --- Two pairs; two pairs of equal ranks within five cards.
+35.jpg --- Three of a kind; three equal ranks within five cards.
+40.jpg --- Nothing in hand; not a recognized poker hand.
+41.jpg --- Nothing in hand; not a recognized poker hand.
+100.jpg --- Two pairs; two pairs of equal ranks within five cards.
+101.jpg --- Two pairs; two pairs of equal ranks within five cards.
+102.jpg --- Two pairs; two pairs of equal ranks within five cards.
+105.jpg --- Three of a kind; three equal ranks within five cards.
+106.jpg --- Two pairs; two pairs of equal ranks within five cards.
+107.jpg --- One pair; one pair of equal ranks within five cards.
+109.jpg --- One pair; one pair of equal ranks within five cards.
+112.jpg --- One pair; one pair of equal ranks within five cards.
+124.jpg --- Nothing in hand; not a recognized poker hand.
+127.jpg --- Nothing in hand; not a recognized poker hand.
+131.jpg --- Three of a kind; three equal ranks within five cards.
+135.jpg --- Nothing in hand; not a recognized poker hand.
+136.jpg --- Nothing in hand; not a recognized poker hand.
+137.jpg --- Straight; five cards, sequentially ranked with no gaps.
+138.jpg --- Nothing in hand; not a recognized poker hand.

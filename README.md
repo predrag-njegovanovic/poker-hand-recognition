@@ -7,6 +7,7 @@
  **Libraries** necessary to run scripts:
     
     -python 2.7
+    -opencv 3.2
     -numpy 1.12 or greater
     -sckit-learn 0.18
     -sckit-image 0.10

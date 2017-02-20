@@ -22,7 +22,7 @@ def CardRecognition(img,model):
         i = cm.obradiSliku(img, counter)
        # plt.imshow(i,'gray')
        # plt.show()
-        konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        nesto, konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         cv2.drawContours(c,konture,-1,(255,255,0),2)
         kontura = sorted(konture, key=cv2.contourArea, reverse=True)[:10]
         for cons in kontura:

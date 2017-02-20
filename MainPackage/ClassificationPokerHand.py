@@ -2,7 +2,7 @@ from __future__ import division
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import cross_val_score
+#from sklearn.model_selection import cross_val_score
 from sklearn.neighbors import KNeighborsClassifier
 
 
@@ -64,8 +64,8 @@ def trainPokerNetwork():
 
     model = RandomForestClassifier(n_estimators=10,n_jobs=-1, criterion='entropy')
     model.fit(data, testLabels)
-    score = cross_val_score(model, data, testLabels)
-    print score.mean()
+   # score = cross_val_score(model, data, testLabels)
+   # print score.mean()
     return model
 
 def getPokerHand(model, array):

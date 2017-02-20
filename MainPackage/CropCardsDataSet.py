@@ -21,7 +21,7 @@ for card in allPictures:
         counter += 2
         i = cm.obradiSliku(img, counter)
 
-        contours, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        image, contours, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         contour = sorted(contours, key=cv2.contourArea, reverse=True)[:1]
 
         c = contour[0]

@@ -170,7 +170,6 @@ def CardRecognition(img,model):
         number, probability = nnwd.checkCard(model, r)
         t = (number, probability)
         accumulationList.append(t)
-
         if(len(accumulationList) == 8):
             accumulationList = sorted(accumulationList, key=operator.itemgetter(1),reverse=True)
 

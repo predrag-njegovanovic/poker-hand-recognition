@@ -17,9 +17,11 @@ modelRandomForest = pick.load(open("RandomForestPokerHand.bin",'rb'))
 allPictures = os.listdir('TestCards')
 allPictures = natural_sort(allPictures)
 f = open('Results.txt','w')
+c = open('Cards.txt','w')
 for picture in allPictures:
     img = imread('TestCards/'+picture)
     list = cd.CardRecognition(img, modelNeural)
+    c.write(str(list)+'\n')
     hand = cph.getPokerHand(modelRandomForest, list)
     if(hand == 0):
         f.write(picture+' --- Nothing in hand; not a recognized poker hand.\n')
@@ -44,3 +46,4 @@ for picture in allPictures:
     else:
         print 'Error: Nothing found!'
 f.close()
+c.close()

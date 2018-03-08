@@ -1,20 +1,15 @@
-import matplotlib.pyplot as plt
-import numpy as np
-from skimage.io import imread
-import matplotlib.image as im
-import cv2
-import copy
 import os
-from PIL import Image
+import cv2
+import numpy as np
 import CardManipulationFunctions as cm
+
+from PIL import Image
+from skimage.io import imread
 
 
 allPictures = os.listdir('Soft-dataset')
 for card in allPictures:
     img = imread('Soft-dataset/'+card)
-    #img = imread('12 PIK.jpg')
-
-    #
     counter = 7
     wFirstCounter = 0
     while wFirstCounter < 100:
@@ -31,7 +26,7 @@ for card in allPictures:
         for idx, i in enumerate(approx):
             list.append(approx[idx][0])
 
-        wFirstCounter+=1
+        wFirstCounter += 1
         if(len(approx) <= 4):
             break
 
@@ -39,7 +34,7 @@ for card in allPictures:
     dst = np.array([[0, 0], [0, 499], [499, 499], [499, 0]], np.float32)
     M = cv2.getPerspectiveTransform(approx, dst)
     z = cv2.warpPerspective(img, M, (500, 500))
-    cropsTop = z[0:120,0:120]
+    cropsTop = z[0:120, 0:120]
     cropsBottom = z[380:500, 0:120]
     angleRotate = -90
     secCounter = 2
@@ -56,9 +51,9 @@ for card in allPictures:
         for x in range(len(i)):
             for k in range(len(i[x])):
                 if(i[x][k] == 0):
-                    blacks+=1
+                    blacks += 1
                 else:
-                    whites+=1
+                    whites += 1
 
         wFirstCounter += 1
         secCounter += 1
@@ -68,7 +63,7 @@ for card in allPictures:
         if(h > 80 and h < 110 and w > 40 and w < 100):
             break
 
-    ### Crops bottom ###
+    # Crops bottom
     secCounter = 2
     wFirstCounter = 0
     angleRotate = 90
@@ -106,11 +101,7 @@ for card in allPictures:
 
     top = Image.fromarray(tO)
     bottom = Image.fromarray(bO)
-    imageTop = top.resize((95,70), Image.ANTIALIAS)
+    imageTop = top.resize((95, 70), Image.ANTIALIAS)
     imageBottom = bottom.resize((95, 70), Image.ANTIALIAS)
-    imageTop.save(os.path.join('Soft-dataset-uglovi',"Top "+card), 'JPEG', quality=90)
-    imageBottom.save(os.path.join('Soft-dataset-uglovi',"Bottom "+card), 'JPEG', quality=90)
-
-
-
-
+    imageTop.save(os.path.join('Soft-dataset-uglovi', "Top "+card), 'JPEG', quality=90)
+    imageBottom.save(os.path.join('Soft-dataset-uglovi', "Bottom "+card), 'JPEG', quality=90)

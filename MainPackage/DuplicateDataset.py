@@ -1,12 +1,8 @@
-import matplotlib.pyplot as plt
-import numpy as np
-from skimage.io import imread
-import matplotlib.image as im
-import cv2
-import copy
 import os
-from PIL import Image
 import CardManipulationFunctions as cm
+
+from PIL import Image
+from skimage.io import imread
 
 
 allPictures = os.listdir('Soft-dataset-uglovi')
@@ -23,7 +19,6 @@ for card in allPictures:
     else:
         TopImage = img[0:height/2 + 5, 0:width]
 
-
     if(cm.haveSpace(BottomImage)):
         BottomImage = img[height/2 + 5:height, 0:width]
     else:
@@ -36,6 +31,3 @@ for card in allPictures:
     imageTop.save(os.path.join('Soft-dataset-duplicated', "Top " + str(iterator) + card), 'JPEG', quality=90)
     imageBottom.save(os.path.join('Soft-dataset-duplicated', "Bottom " + str(iterator) + card), 'JPEG', quality=90)
     iterator += 1
-
-
-

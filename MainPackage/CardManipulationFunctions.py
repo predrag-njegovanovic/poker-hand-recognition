@@ -1,18 +1,14 @@
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
 from operator import itemgetter
 
 
-
 def haveSpace(img):
-
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     filter = np.ones((5, 5), np.float32) / 25
 
     i = cv2.filter2D(gray, -1, filter)
     i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
-
     i = turnWhite(img, i)
 
     for x in range(len(i)):
@@ -26,7 +22,7 @@ def haveSpace(img):
         if(clearColumn):
             return True
 
-    return  False
+    return False
 
 
 def getBlacks(i):
@@ -36,6 +32,7 @@ def getBlacks(i):
             if (i[x][k] == 1):
                 whites += 1
     return whites
+
 
 def cutInHalf(img):
     height, width, channel = img.shape
@@ -58,7 +55,7 @@ def cutInHalf(img):
     lC = getBlacks(lastColumn)
     fR = getBlacks(firstRow)
     lR = getBlacks(lastRow)
-    temp = ((fC, RightImage),(lC,LeftImage), (fR, BottomImage), (lR, TopImage))
+    temp = ((fC, RightImage), (lC, LeftImage), (fR, BottomImage), (lR, TopImage))
     pom = sorted(temp, key=itemgetter(0))[-1]
     im = pom[1]
     res = im
@@ -70,13 +67,14 @@ def cutInHalf(img):
         res = cv2.resize(im, (height, width), interpolation=cv2.INTER_CUBIC)
     return res
 
-def nadjiKonture (img):
-    image, konture, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    kontura = sorted(konture, key=cv2.contourArea, reverse=True)
+
+def nadjiKonture(img):
+    image, contours, hierarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contour = sorted(contours, key=cv2.contourArea, reverse=True)
 
     list = []
 
-    t = cv2.boundingRect(kontura[0])
+    t = cv2.boundingRect(contour[0])
     list.append(t)
     max = 0
     idx = 0
@@ -91,6 +89,7 @@ def nadjiKonture (img):
     h = list[idx][3]
     return x, y, w, h
 
+
 def Znak(cropsTop, counter, angleRotate):
     crops = obradiSliku(cropsTop, counter)
     x, y, w, h = nadjiKonture(crops)
@@ -99,15 +98,16 @@ def Znak(cropsTop, counter, angleRotate):
     height, width, channel = topOut.shape
     if(width > height):
         Mat = cv2.getRotationMatrix2D((cropWidth/2, cropHeight/2), angleRotate, 1)
-        novaSlika = cv2.warpAffine(cropsTop, Mat, (cropWidth, cropHeight))
-        cc = obradiSliku(novaSlika, counter)
-        x,y,w,h = nadjiKonture(cc)
+        newPic = cv2.warpAffine(cropsTop, Mat, (cropWidth, cropHeight))
+        cc = obradiSliku(newPic, counter)
+        x, y, w, h = nadjiKonture(cc)
         cv2.rectangle(cc, (x, y), (x + w, y + h), (255, 255, 0), 2)
-        topOut = novaSlika[y:y+h, x:x+w]
+        topOut = newPic[y:y+h, x:x+w]
 
     return topOut
 
-def obradiSliku (img, nmbOfDilate):
+
+def obradiSliku(img, nmbOfDilate):
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     filter = np.ones((5, 5), np.float32) / 25
     i = cv2.filter2D(gray, -1, filter)
@@ -118,6 +118,7 @@ def obradiSliku (img, nmbOfDilate):
     i = cv2.morphologyEx(i, cv2.MORPH_OPEN, kernel, iterations=1)
     i = cv2.dilate(i, kernel, iterations=nmbOfDilate)
     return i
+
 
 def turnWhite(img, blackImg):
     h, w, c = img.shape

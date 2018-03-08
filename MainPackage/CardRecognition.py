@@ -1,16 +1,12 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from skimage.io import imread
-import CardManipulationFunctions as cm
 import cv2
 import copy
-from keras.models import load_model
 import operator
-import h5py
-from PIL import Image
+import numpy as np
 import NeuralNetworkWithDuplicates as nnwd
+import CardManipulationFunctions as cm
 
-def CardRecognition(img,model):
+
+def CardRecognition(img, model):
     c = copy.copy(img)
     counter = 7
     wFirstCounter = 0
@@ -20,10 +16,8 @@ def CardRecognition(img,model):
         contoursOf4 = []
         counter += 1
         i = cm.obradiSliku(img, counter)
-       # plt.imshow(i,'gray')
-       # plt.show()
         image, konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(c,konture,-1,(255,255,0),2)
+        cv2.drawContours(c, konture, -1, (255, 255, 0), 2)
         kontura = sorted(konture, key=cv2.contourArea, reverse=True)[:10]
         for cons in kontura:
             p = cv2.arcLength(cons, True)
@@ -50,16 +44,16 @@ def CardRecognition(img,model):
                 if(abs(vX - cX) >= 0 and abs(vX - cX) < 5 and abs(vY - cY) >= 0 and abs(vY - cY) < 5):
                     flag = True
                     break
-            if(flag == False):
+            if not flag:
                 listOfContours.append(contoursOf4[x])
                 if(len(listOfContours) == 6):
                     break
-            x+=1
+            x += 1
 
         flag = False
         arrayOfContures = []
 
-        for idx,c in enumerate(listOfContours):
+        for idx, c in enumerate(listOfContours):
             peri = cv2.arcLength(c, True)
             approx = cv2.approxPolyDP(c, 0.02 * peri, True)
             if(len(approx) > 4):
@@ -70,73 +64,66 @@ def CardRecognition(img,model):
 
             arrayOfContures.append(list)
         wFirstCounter += 1
-        if (flag == False):
+        if not flag:
             break
 
-    for index,list in enumerate(arrayOfContures):
+    for index, list in enumerate(arrayOfContures):
         if(index > 4):
             break
         approx = np.array(list, np.float32)
         dst = np.array([[0, 0], [0, 499], [499, 499], [499, 0]], np.float32)
         M = cv2.getPerspectiveTransform(approx, dst)
         z = cv2.warpPerspective(img, M, (500, 500))
-        # plt.imshow(z)
-        # plt.show()
         arrayOfImages.append(z)
 
-    cropNum = 0
     cropCards = []
     for image in arrayOfImages:
         for numAngle in range(4):
-             if(numAngle == 0):
+            if(numAngle == 0):
                 crops = image[0:120, 0:120]
-             elif(numAngle ==1):
-                 crops = image[380:500, 0:120]
-             elif(numAngle == 2):
-                 crops = image[0:120, 380:500]
-             else:
-                 crops = image[380:500, 380:500]
+            elif(numAngle == 1):
+                crops = image[380:500, 0:120]
+            elif(numAngle == 2):
+                crops = image[0:120, 380:500]
+            else:
+                crops = image[380:500, 380:500]
 
-             secCounter = 2
-             wFirstCounter = 0
-             angleRotate = -90
-             while wFirstCounter < 20:
-                 whites = 0
-                 blacks = 0
-                 tO = cm.Znak(crops, secCounter, angleRotate)
-                 h, w, c = tO.shape
-                 gray = cv2.cvtColor(tO, cv2.COLOR_BGR2GRAY)
-                 filter = np.ones((5, 5), np.float32) / 25
-                 i = cv2.filter2D(gray, -1, filter)
-                 i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
-                 for x in range(len(i)):
-                     for k in range(len(i[x])):
-                         if(i[x][k] == 0):
-                             blacks+=1
-                         else:
-                             whites+=1
+            secCounter = 2
+            wFirstCounter = 0
+            angleRotate = -90
+            while wFirstCounter < 20:
+                whites = 0
+                blacks = 0
+                tO = cm.Znak(crops, secCounter, angleRotate)
+                h, w, c = tO.shape
+                gray = cv2.cvtColor(tO, cv2.COLOR_BGR2GRAY)
+                filter = np.ones((5, 5), np.float32) / 25
+                i = cv2.filter2D(gray, -1, filter)
+                i = cv2.adaptiveThreshold(i, 1, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+                for x in range(len(i)):
+                    for k in range(len(i[x])):
+                        if(i[x][k] == 0):
+                            blacks += 1
+                        else:
+                            whites += 1
 
-                 wFirstCounter += 1
-                 secCounter += 1
-                 if(blacks/whites > 5):
-                     continue
-        #
-                 if(h > 80 and h < 110 and w > 40 and w < 100):
-                     break
-        #
-             ht, wt, ct = tO.shape
-             if (ht > 115 and wt > 115):
-                 tO = cm.cutInHalf(tO)
+                wFirstCounter += 1
+                secCounter += 1
+                if(blacks/whites > 5):
+                    continue
+                if(h > 80 and h < 110 and w > 40 and w < 100):
+                    break
 
+            ht, wt, ct = tO.shape
+            if (ht > 115 and wt > 115):
+                tO = cm.cutInHalf(tO)
 
-             cropCards.append(tO)
-
+            cropCards.append(tO)
 
     resizesFirst = []
     for card in cropCards:
-        s = cv2.resize(card,(95, 70), interpolation=cv2.INTER_CUBIC)
+        s = cv2.resize(card, (95, 70), interpolation=cv2.INTER_CUBIC)
         resizesFirst.append(s)
-
 
     resizes = []
     for slika in resizesFirst:
@@ -156,7 +143,6 @@ def CardRecognition(img,model):
         else:
             BottomImage = slika[height / 2 - 5:height, 0:width]
 
-
         imageTop = cv2.resize(TopImage, (95, 35), interpolation=cv2.INTER_CUBIC)
         imageBottom = cv2.resize(BottomImage, (95, 35), interpolation=cv2.INTER_CUBIC)
 
@@ -171,11 +157,11 @@ def CardRecognition(img,model):
         t = (number, probability)
         accumulationList.append(t)
         if(len(accumulationList) == 8):
-            accumulationList = sorted(accumulationList, key=operator.itemgetter(1),reverse=True)
+            accumulationList = sorted(accumulationList, key=operator.itemgetter(1), reverse=True)
 
             listOfNumbers.append(accumulationList[0][0])
             flag = accumulationList[0][0]
-            for x,nesto in enumerate(accumulationList):
+            for x, _ in enumerate(accumulationList):
                 if(flag >= 15 and accumulationList[x][0] < 15):
                     listOfNumbers.append(accumulationList[x][0])
                     break
@@ -186,7 +172,7 @@ def CardRecognition(img,model):
             accumulationList = []
 
     finalList = []
-    for index in xrange(0,len(listOfNumbers)-1,2):
+    for index in range(0, len(listOfNumbers)-1, 2):
         znak = listOfNumbers[index]
         broj = listOfNumbers[index+1]
         if znak >= 15:
@@ -197,5 +183,3 @@ def CardRecognition(img,model):
             finalList.append(znak)
 
     return finalList
-
-

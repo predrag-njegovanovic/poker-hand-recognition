@@ -1,19 +1,18 @@
 from __future__ import division
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier
-#from sklearn.model_selection import cross_val_score
-from sklearn.neighbors import KNeighborsClassifier
 
 
 def to_categorical(labels, n):
     retVal = np.zeros((len(labels), n), 'int')
     ll = np.array(list(enumerate(labels)))
-    retVal[ll[:, 0],ll[:,  1]] = 1
+    retVal[ll[:, 0], ll[:,  1]] = 1
     return retVal
 
+
 def trainPokerNetwork():
-    f = open('Soft-dataset-pokerHand/PokerHand-Original.txt','r')
+    f = open('Soft-dataset-pokerHand/PokerHand-Original.txt', 'r')
     textLines = []
     labels = []
     ranks = []
@@ -23,10 +22,10 @@ def trainPokerNetwork():
         ranks = []
         numbers = []
         parts = line.split(",")
-        for i in xrange(0, len(parts), 2):
+        for i in range(0, len(parts), 2):
             if(i == 10):
-                 labels.append(int(parts[i]))
-                 break
+                labels.append(int(parts[i]))
+                break
 
             x = int(parts[i+1])
             ranks.append(int(parts[i]))
@@ -50,29 +49,24 @@ def trainPokerNetwork():
         newData.extend(numbersExtracted)
         textLines.append(newData)
 
-    print "Priprema ulaza....."
-    #
+    print("Priprema ulaza.....")
     data = []
-    for x in  textLines:
+    for x in textLines:
         data.append(x)
-    #
     data = np.array(data)
-    #
-    print "Zavrsena priprema....."
-    #
+    print("Zavrsena priprema.....")
     testLabels = np.array(labels)
 
-    model = RandomForestClassifier(n_estimators=10,n_jobs=-1, criterion='entropy')
+    model = RandomForestClassifier(n_estimators=10, n_jobs=-1, criterion='entropy')
     model.fit(data, testLabels)
-   # score = cross_val_score(model, data, testLabels)
-   # print score.mean()
     return model
+
 
 def getPokerHand(model, array):
     newData = []
     ranks = []
     numbers = []
-    for i in xrange(0, len(array), 2):
+    for i in range(0, len(array), 2):
 
         x = int(array[i])
         y = int(array[i+1])
@@ -115,4 +109,3 @@ def getPokerHand(model, array):
     data = np.array(newData)
     predict = model.predict(data)
     return predict
-

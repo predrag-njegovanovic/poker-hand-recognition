@@ -1,7 +1,8 @@
 .idea/*
-MainPackage/CardNeural.h5
-MainPackage/CardNeural52.h5
-MainPackage/CardNeuralDuplicates.h5
-MainPackage/CardNeuralPoker.h5
-MainPackage/NeuralNetwork80inputs.h5
-MainPackage/*.pyc
+.editorconfig
+src/CardNeural.h5
+src/CardNeural52.h5
+src/CardNeuralDuplicates.h5
+src/CardNeuralPoker.h5
+src/NeuralNetwork80inputs.h5
+src/*.pyc

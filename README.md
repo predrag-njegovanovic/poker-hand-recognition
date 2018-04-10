@@ -17,7 +17,7 @@
 
   All libraries can be installed via pip. Run command pip install <_library_name_>.
 
-  Run main.py -> Load models and recognize all cards from folder 'TestCards' and write result in Results.txt. If models aren't saved run TrainAndSaveNN.py first.
+  Run main.py -> Load models and recognize all cards from folder 'data/test_dataset/' and write result in /results/results.txt. If models aren't saved run train_nn.py first.
   
   card_manipulation.py -> Script contains functions for image processing
   

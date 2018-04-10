@@ -17,13 +17,13 @@
 
   All libraries can be installed via pip. Run command pip install <_library_name_>.
 
-  Run MainScript.py -> Load models and recognize all cards from folder 'TestCards' and write result in Results.txt. If models aren't saved run TrainAndSaveNN.py first.
+  Run main.py -> Load models and recognize all cards from folder 'TestCards' and write result in Results.txt. If models aren't saved run TrainAndSaveNN.py first.
   
-  CardManipulationFunctions.py -> Script contains functions for image processing
+  card_manipulation.py -> Script contains functions for image processing
   
-  DuplicateDataset.py -> Create dataset to run through neural network
+  crop_cards.py and preprocess_crop_cards.py -> Create dataset to run through neural network
   
-  TrainAndSaveNN.py -> Create models for NN and Random Forest and save to file
+  train_nn.py -> Create models for NN and Random Forest and save to file
   
   
 

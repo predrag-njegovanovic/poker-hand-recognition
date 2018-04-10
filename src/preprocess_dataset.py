@@ -1,5 +1,5 @@
 import os
-import CardManipulationFunctions as cm
+import card_manipulation as cm
 
 from PIL import Image
 from skimage.io import imread

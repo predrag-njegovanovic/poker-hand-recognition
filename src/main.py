@@ -1,8 +1,8 @@
 import os
 import re
 import pickle as pick
-import CardRecognition as cd
-import ClassificationPokerHand as cph
+import card_recognition as cd
+import poker_hand_classifier as cph
 
 from skimage.io import imread
 from keras.models import load_model

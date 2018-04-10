@@ -2,8 +2,8 @@ import cv2
 import copy
 import operator
 import numpy as np
-import NeuralNetworkWithDuplicates as nnwd
-import CardManipulationFunctions as cm
+import neural_network as nnwd
+import card_manipulation as cm
 
 
 def CardRecognition(img, model):

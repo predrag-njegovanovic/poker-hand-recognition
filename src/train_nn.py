@@ -1,5 +1,5 @@
 from __future__ import division
-import NeuralNetworkWithDuplicates as nnwd
+import neural_network as nnwd
 
 
 if __name__ == "__main__":

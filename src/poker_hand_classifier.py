@@ -1,7 +1,12 @@
 from __future__ import division
 
+import os
 import numpy as np
+import pickle as pick
+
 from sklearn.ensemble import RandomForestClassifier
+
+full_path = os.path.dirname(__file__)
 
 
 def to_categorical(labels, n):
@@ -11,14 +16,14 @@ def to_categorical(labels, n):
     return retVal
 
 
-def trainPokerNetwork():
-    f = open('Soft-dataset-pokerHand/PokerHand-Original.txt', 'r')
-    textLines = []
+def train_random_forest():
+    f = open(full_path + '/data/poker_hand_dataset/PokerHand-Original.txt', 'r')
+    text_lines = []
     labels = []
     ranks = []
     numbers = []
     for line in f:
-        newData = []
+        new_data = []
         ranks = []
         numbers = []
         parts = line.split(",")
@@ -33,25 +38,25 @@ def trainPokerNetwork():
 
         ranks = sorted(ranks, key=int)
         numbers = sorted(numbers, key=int)
-        highestNumber = numbers[-1]
-        numbersExtracted = []
-        numbersExtracted.append(highestNumber)
-        ranksExtracted = []
+        highest_number = numbers[-1]
+        numbers_extracted = []
+        numbers_extracted.append(highest_number)
+        ranks_extracted = []
         for s in range(len(ranks)-1):
             diff = ranks[s+1] - ranks[s]
-            ranksExtracted.append(diff)
+            ranks_extracted.append(diff)
 
         for n in range(len(numbers)-1):
             diff = numbers[n+1] - numbers[n]
-            numbersExtracted.append(diff)
+            numbers_extracted.append(diff)
 
-        newData.extend(ranksExtracted)
-        newData.extend(numbersExtracted)
-        textLines.append(newData)
+        new_data.extend(ranks_extracted)
+        new_data.extend(numbers_extracted)
+        text_lines.append(new_data)
 
     print("Priprema ulaza.....")
     data = []
-    for x in textLines:
+    for x in text_lines:
         data.append(x)
     data = np.array(data)
     print("Zavrsena priprema.....")
@@ -59,11 +64,13 @@ def trainPokerNetwork():
 
     model = RandomForestClassifier(n_estimators=10, n_jobs=-1, criterion='entropy')
     model.fit(data, testLabels)
+    with open(full_path + '/models/random_forest.pkl', 'wb') as f:
+        pick.dump(model, f)
     return model
 
 
-def getPokerHand(model, array):
-    newData = []
+def get_poker_hand(model, array):
+    new_data = []
     ranks = []
     numbers = []
     for i in range(0, len(array), 2):
@@ -91,21 +98,26 @@ def getPokerHand(model, array):
     ranks = sorted(ranks, key=int)
     numbers = sorted(numbers, key=int)
 
-    highestNumber = numbers[-1]
-    numbersExtracted = []
-    numbersExtracted.append(highestNumber)
-    ranksExtracted = []
+    highest_number = numbers[-1]
+    numbers_extracted = []
+    numbers_extracted.append(highest_number)
+    ranks_extracted = []
     for s in range(len(ranks) - 1):
         diff = ranks[s + 1] - ranks[s]
-        ranksExtracted.append(diff)
+        ranks_extracted.append(diff)
 
     for n in range(len(numbers) - 1):
         diff = numbers[n + 1] - numbers[n]
-        numbersExtracted.append(diff)
+        numbers_extracted.append(diff)
 
-    newData.extend(ranksExtracted)
-    newData.extend(numbersExtracted)
+    new_data.extend(ranks_extracted)
+    new_data.extend(numbers_extracted)
 
-    data = np.array(newData)
+    data = np.array(new_data)
+    data = data.reshape(1, -1)
     predict = model.predict(data)
     return predict
+
+
+if __name__ == '__main__':
+    train_random_forest()

@@ -4,40 +4,41 @@ import operator
 import numpy as np
 import neural_network as nnwd
 import card_manipulation as cm
+import matplotlib.pyplot as plt
 
 
-def CardRecognition(img, model):
+def card_recognition(img, model):
     c = copy.copy(img)
     counter = 7
-    wFirstCounter = 0
-    arrayOfImages = []
-    arrayOfContures = []
-    while wFirstCounter < 100:
-        contoursOf4 = []
+    first_counter = 0
+    image_array = []
+    contour_array = []
+    while first_counter < 100:
+        contours_of_four = []
         counter += 1
-        i = cm.obradiSliku(img, counter)
-        image, konture, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        cv2.drawContours(c, konture, -1, (255, 255, 0), 2)
-        kontura = sorted(konture, key=cv2.contourArea, reverse=True)[:10]
-        for cons in kontura:
+        i = cm.process_image(img, counter)
+        image, contours, hierarchy = cv2.findContours(i, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        cv2.drawContours(c, contours, -1, (255, 255, 0), 2)
+        contour = sorted(contours, key=cv2.contourArea, reverse=True)[:10]
+        for cons in contour:
             p = cv2.arcLength(cons, True)
             a = cv2.approxPolyDP(cons, 0.02 * p, True)
             if(len(a) == 4):
-                contoursOf4.append(cons)
-            if(len(contoursOf4) > 8 and len(a) > 4):
+                contours_of_four.append(cons)
+            if(len(contours_of_four) > 8 and len(a) > 4):
                 break
 
         x = 0
-        listOfContours = []
-        listOfContours.append(contoursOf4[0])
-        while x < len(contoursOf4):
-            f = cv2.moments(contoursOf4[x])
+        contour_list = []
+        contour_list.append(contours_of_four[0])
+        while x < len(contours_of_four):
+            f = cv2.moments(contours_of_four[x])
             cX = int(f["m10"]/f["m00"])
             cY = int(f["m01"]/f["m00"])
             flag = False
             j = 0
-            while j < len(listOfContours):
-                v = cv2.moments(listOfContours[j])
+            while j < len(contour_list):
+                v = cv2.moments(contour_list[j])
                 vX = int(v["m10"] / v["m00"])
                 vY = int(v["m01"] / v["m00"])
                 j += 1
@@ -45,15 +46,15 @@ def CardRecognition(img, model):
                     flag = True
                     break
             if not flag:
-                listOfContours.append(contoursOf4[x])
-                if(len(listOfContours) == 6):
+                contour_list.append(contours_of_four[x])
+                if(len(contour_list) == 6):
                     break
             x += 1
 
         flag = False
-        arrayOfContures = []
+        contour_array = []
 
-        for idx, c in enumerate(listOfContours):
+        for idx, c in enumerate(contour_list):
             peri = cv2.arcLength(c, True)
             approx = cv2.approxPolyDP(c, 0.02 * peri, True)
             if(len(approx) > 4):
@@ -62,39 +63,39 @@ def CardRecognition(img, model):
             for idx, i in enumerate(approx):
                 list.append(approx[idx][0])
 
-            arrayOfContures.append(list)
-        wFirstCounter += 1
+            contour_array.append(list)
+        first_counter += 1
         if not flag:
             break
 
-    for index, list in enumerate(arrayOfContures):
+    for index, list in enumerate(contour_array):
         if(index > 4):
             break
         approx = np.array(list, np.float32)
         dst = np.array([[0, 0], [0, 499], [499, 499], [499, 0]], np.float32)
         M = cv2.getPerspectiveTransform(approx, dst)
         z = cv2.warpPerspective(img, M, (500, 500))
-        arrayOfImages.append(z)
+        image_array.append(z)
 
-    cropCards = []
-    for image in arrayOfImages:
-        for numAngle in range(4):
-            if(numAngle == 0):
+    crop_cards = []
+    for image in image_array:
+        for num_angle in range(4):
+            if(num_angle == 0):
                 crops = image[0:120, 0:120]
-            elif(numAngle == 1):
+            elif(num_angle == 1):
                 crops = image[380:500, 0:120]
-            elif(numAngle == 2):
+            elif(num_angle == 2):
                 crops = image[0:120, 380:500]
             else:
                 crops = image[380:500, 380:500]
 
-            secCounter = 2
-            wFirstCounter = 0
-            angleRotate = -90
-            while wFirstCounter < 20:
+            sec_counter = 2
+            first_counter = 0
+            angle_rotate = -90
+            while first_counter < 20:
                 whites = 0
                 blacks = 0
-                tO = cm.Znak(crops, secCounter, angleRotate)
+                tO = cm.suit(crops, sec_counter, angle_rotate)
                 h, w, c = tO.shape
                 gray = cv2.cvtColor(tO, cv2.COLOR_BGR2GRAY)
                 filter = np.ones((5, 5), np.float32) / 25
@@ -107,8 +108,8 @@ def CardRecognition(img, model):
                         else:
                             whites += 1
 
-                wFirstCounter += 1
-                secCounter += 1
+                first_counter += 1
+                sec_counter += 1
                 if(blacks/whites > 5):
                     continue
                 if(h > 80 and h < 110 and w > 40 and w < 100):
@@ -116,70 +117,73 @@ def CardRecognition(img, model):
 
             ht, wt, ct = tO.shape
             if (ht > 115 and wt > 115):
-                tO = cm.cutInHalf(tO)
+                tO = cm.cut_half(tO)
 
-            cropCards.append(tO)
-
-    resizesFirst = []
-    for card in cropCards:
-        s = cv2.resize(card, (95, 70), interpolation=cv2.INTER_CUBIC)
-        resizesFirst.append(s)
+            crop_cards.append(tO)
 
     resizes = []
-    for slika in resizesFirst:
+    for card in crop_cards:
+        s = cv2.resize(card, (95, 70), interpolation=cv2.INTER_CUBIC)
+        resizes.append(s)
 
-        height, width, channel = slika.shape
+    picture_parts = []
 
-        TopImage = slika[10:height / 2, 0:width]
-        BottomImage = slika[height / 2:height - 10, 0:width]
+    for picture in resizes:
 
-        if (cm.haveSpace(TopImage)):
-            TopImage = slika[0:height / 2 - 5, 0:width]
+        height, width, channel = picture.shape
+
+        top_image = picture[10:height // 2, 0:width]
+        bottom_image = picture[height // 2:height - 10, 0:width]
+
+        if (cm.have_space(top_image)):
+            top_image = picture[0:height // 2 - 5, 0:width]
         else:
-            TopImage = slika[0:height / 2 + 5, 0:width]
+            top_image = picture[0:height // 2 + 5, 0:width]
 
-        if (cm.haveSpace(BottomImage)):
-            BottomImage = slika[height / 2 + 5:height, 0:width]
+        if (cm.have_space(bottom_image)):
+            bottom_image = picture[height // 2 + 5:height, 0:width]
         else:
-            BottomImage = slika[height / 2 - 5:height, 0:width]
+            bottom_image = picture[height // 2 - 5:height, 0:width]
 
-        imageTop = cv2.resize(TopImage, (95, 35), interpolation=cv2.INTER_CUBIC)
-        imageBottom = cv2.resize(BottomImage, (95, 35), interpolation=cv2.INTER_CUBIC)
+        image_top = cv2.resize(top_image, (95, 35), interpolation=cv2.INTER_CUBIC)
+        image_bottom = cv2.resize(bottom_image, (95, 35), interpolation=cv2.INTER_CUBIC)
 
-        resizes.append(imageTop)
-        resizes.append(imageBottom)
+        picture_parts.append(image_top)
+        picture_parts.append(image_bottom)
 
-    accumulationList = []
-    listOfNumbers = []
+    accumulation_list = []
+    number_list = []
 
-    for r in resizes:
-        number, probability = nnwd.checkCard(model, r)
+    for r in picture_parts:
+        number, probability = nnwd.check_card(model, r)
         t = (number, probability)
-        accumulationList.append(t)
-        if(len(accumulationList) == 8):
-            accumulationList = sorted(accumulationList, key=operator.itemgetter(1), reverse=True)
+        accumulation_list.append(t)
+        if(len(accumulation_list) == 8):
+            accumulation_list = sorted(accumulation_list,
+                                       key=operator.itemgetter(1),
+                                       reverse=True)
 
-            listOfNumbers.append(accumulationList[0][0])
-            flag = accumulationList[0][0]
-            for x, _ in enumerate(accumulationList):
-                if(flag >= 15 and accumulationList[x][0] < 15):
-                    listOfNumbers.append(accumulationList[x][0])
+            number_list.append(accumulation_list[0][0])
+            flag = accumulation_list[0][0]
+            for x, _ in enumerate(accumulation_list):
+                if(flag >= 15 and accumulation_list[x][0] < 15):
+                    number_list.append(accumulation_list[x][0])
                     break
-                elif(flag < 15 and accumulationList[x][0] >= 15):
-                    listOfNumbers.append(accumulationList[x][0])
+                elif(flag < 15 and accumulation_list[x][0] >= 15):
+                    number_list.append(accumulation_list[x][0])
                     break
 
-            accumulationList = []
+            accumulation_list = []
 
-    finalList = []
-    for index in range(0, len(listOfNumbers)-1, 2):
-        znak = listOfNumbers[index]
-        broj = listOfNumbers[index+1]
-        if znak >= 15:
-            finalList.append(znak)
-            finalList.append(broj)
+    final_list = []
+    for index in range(0, len(number_list)-1, 2):
+        suit = number_list[index]
+        number = number_list[index+1]
+        if suit >= 15:
+            final_list.append(suit)
+            final_list.append(number)
         else:
-            finalList.append(broj)
-            finalList.append(znak)
+            final_list.append(suit)
+            final_list.append(number)
 
-    return finalList
+    return final_list

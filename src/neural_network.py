@@ -9,6 +9,8 @@ from keras.models import Sequential
 from keras.optimizers import Adagrad
 from keras.layers.core import Activation, Dense, Dropout
 
+full_path = os.path.dirname(__file__)
+
 
 def natural_sort(l):
     convert = lambda text: int(text) if text.isdigit() else text.lower()
@@ -23,22 +25,27 @@ def to_categorical(labels, n):
     return retVal
 
 
-def trainNetwork():
-    allPictures = os.listdir('Soft-dataset-duplicated')
-    allPictures = natural_sort(allPictures)
+def train_network():
+    pictures = os.listdir(full_path + '/data/processed_cards/')
+    sorted_pictures = natural_sort(pictures)
     data = []
     labels = []
-    for card in allPictures:
+    for card in sorted_pictures:
         card_number = int(card.split(' ', 2)[0])
         labels.append(card_number)
-        img = imread('Soft-dataset-duplicated/' + card)
+        img = imread(full_path + '/data/processed_cards/' + card)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        img = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+        img = cv2.adaptiveThreshold(gray,
+                                    255,
+                                    cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                    cv2.THRESH_BINARY_INV,
+                                    11,
+                                    3)
         i = np.asarray(img.flatten())
         data.append(i)
     test_labels = np_utils.to_categorical(labels, 19)
     data = np.array(data) / 255.0
-    print(data.shape)
+    # print(data.shape)
 
     # Defining a model
     model = Sequential()
@@ -56,18 +63,27 @@ def trainNetwork():
     model.compile(loss='categorical_crossentropy', optimizer=adagrad, metrics=['accuracy'])
     print("....Training starting....")
 
-    training = model.fit(data, test_labels, nb_epoch=25, batch_size=10, verbose=1)
+    training = model.fit(data,
+                         test_labels,
+                         nb_epoch=20,
+                         batch_size=10,
+                         verbose=1)
     print(training.history)
     print("...Training finished...")
     return model
 
 
-def checkCard(model, testImg):
-    g = cv2.cvtColor(testImg, cv2.COLOR_BGR2GRAY)
-    testImg = cv2.adaptiveThreshold(g, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
-    testX = np.asarray(testImg.flatten())
-    testX = np.reshape(testX, (1, 3325))
-    testX = testX/255.0
-    t = model.predict(testX, verbose=0)
-    maxIndex = np.argmax(t)
-    return maxIndex, t[0][maxIndex]
+def check_card(model, test_img):
+    g = cv2.cvtColor(test_img, cv2.COLOR_BGR2GRAY)
+    test_img = cv2.adaptiveThreshold(g,
+                                     255,
+                                     cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                     cv2.THRESH_BINARY_INV,
+                                     11,
+                                     3)
+    test_x = np.asarray(test_img.flatten())
+    test_x = np.reshape(test_x, (1, 3325))
+    test_x = test_x/255.0
+    t = model.predict(test_x, verbose=0)
+    max_index = np.argmax(t)
+    return max_index, t[0][max_index]
